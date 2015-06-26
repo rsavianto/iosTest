@@ -10,6 +10,7 @@ import org.openqa.selenium.WebElement;
 public class BaseTest extends SetUp {
 	WebElement element;
 	String blank = "";
+	int ran = 100 + (int)(Math.random() * ((10000 - 100) + 1));
 	
 	protected boolean isElementExist (By by){
 		try {

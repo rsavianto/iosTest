@@ -17,7 +17,11 @@ public class SetUp {
 	@BeforeClass
     public void setUp() throws Exception {
 //        File classpathRoot = new File(System.getProperty("user.dir"));
+
 		File appDir = new File("./");
+
+        //File appDir = new File("/Users/mohadzanegisetigung/Documents/ios/");
+
         File app = new File(appDir, "HappyFresh.app.zip");
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("appium-version","1.4.0");

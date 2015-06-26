@@ -7,20 +7,21 @@ import org.testng.annotations.Test;
 public class Launch extends BaseTest{
 	
 	String blank = "";
+	String random = "signuptest" + ran + "@gmail.com";
 	
 	public void signUp(String fname, String lname, String email, String pwd, String pcode){
-		driver.findElement(By.id("com.happyfresh.staging:id/first_name")).clear();
-		driver.findElement(By.id("com.happyfresh.staging:id/first_name")).sendKeys(fname);
-		driver.findElement(By.id("com.happyfresh.staging:id/last_name")).clear();
-		driver.findElement(By.id("com.happyfresh.staging:id/last_name")).sendKeys(lname);
-		driver.findElement(By.id("com.happyfresh.staging:id/email")).clear();
-		driver.findElement(By.id("com.happyfresh.staging:id/email")).sendKeys(email);
-		driver.findElement(By.id("com.happyfresh.staging:id/password")).clear();
-		driver.findElement(By.id("com.happyfresh.staging:id/password")).sendKeys(pwd);
-		driver.findElement(By.id("com.happyfresh.staging:id/promo_code")).clear();
-		driver.findElement(By.id("com.happyfresh.staging:id/promo_code")).sendKeys(pcode);
+		driver.findElement(By.xpath("//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIATextField[1]")).clear();
+		driver.findElement(By.xpath("//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIATextField[1]")).sendKeys(fname);
+		driver.findElement(By.xpath("//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIATextField[2]")).clear();
+		driver.findElement(By.xpath("//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIATextField[2]")).sendKeys(lname);
+		driver.findElement(By.xpath("//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIATextField[3]")).clear();
+		driver.findElement(By.xpath("//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIATextField[3]")).sendKeys(email);
+		driver.findElement(By.xpath("//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIASecureTextField[1]")).clear();
+		driver.findElement(By.xpath("//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIASecureTextField[1]")).sendKeys(pwd);
+		driver.findElement(By.xpath("//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIATextField[4]")).clear();
+		driver.findElement(By.xpath("//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIATextField[4]")).sendKeys(pcode);
 		
-		driver.findElement(By.id("com.happyfresh.staging:id/sign_up")).submit();
+		driver.findElement(By.id("Sign Up")).click();
 			
 	}
 
@@ -31,8 +32,46 @@ public class Launch extends BaseTest{
 	public void TC_2014Q20007_001_001() {
 		isWait(3);
 		// Finding element By name
-		element = driver.findElement(By.id("com.happyfresh.staging:id/logo"));
+		element = driver.findElement(By.name("Next"));
+		Assert.assertTrue(element.isDisplayed(), "Next button not found");
 		Assert.assertTrue(element.isDisplayed(), "Splash screen is displayed more than 5 seconds.");
+		driver.findElement(By.name("Next")).click();
+		driver.findElement(By.name("Next")).click();
+		driver.findElement(By.name("Let’s Get Started!")).click();
+		Assert.assertTrue(driver.findElement(By.name("Sign up now")).isDisplayed(), "Sign up now not found");
+		Assert.assertEquals(driver.findElement(By.name("Sign up now")).getText(), "Sign up now", "Sign up now not found");
+		driver.findElement(By.name("Back")).click();
+		
+		driver.findElement(By.name("Let’s Get Started!")).click();
+		driver.findElement(By.name("Sign Up")).click();
+		Assert.assertEquals(driver.findElement(By.name("Error")).getText(),"Error","Error popup doesn't appears");
+		Assert.assertEquals(driver.findElement(By.name("Email and password can't be empty.")).getText(),"Email and password can't be empty.","Error popup doesn't appears");
+		Assert.assertEquals(driver.findElement(By.name("OK")).getText(),"OK","Error popup doesn't appears");
+		driver.findElement(By.name("OK")).click();
+		driver.findElement(By.xpath("//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIATextField[1]")).clear();
+		driver.findElement(By.xpath("//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIATextField[1]")).sendKeys("Saya");
+		driver.findElement(By.name("Sign Up")).click();
+		Assert.assertEquals(driver.findElement(By.name("Error")).getText(),"Error","Error popup doesn't appears");
+		Assert.assertEquals(driver.findElement(By.name("Email and password can't be empty.")).getText(),"Email and password can't be empty.","Error popup doesn't appears");
+		Assert.assertEquals(driver.findElement(By.name("OK")).getText(),"OK","Error popup doesn't appears");
+		driver.findElement(By.name("OK")).click();
+		signUp("saya","Budi",blank,"12345678","dJk14");
+		Assert.assertEquals(driver.findElement(By.name("Error")).getText(),"Error","Error popup doesn't appears");
+		Assert.assertEquals(driver.findElement(By.name("Email and password can't be empty.")).getText(),"Email and password can't be empty.","Error popup doesn't appears");
+		Assert.assertEquals(driver.findElement(By.name("OK")).getText(),"OK","Error popup doesn't appears");
+		driver.findElement(By.name("OK")).click();
+		signUp("saya","Budi",random, blank,"dJk14");
+		Assert.assertEquals(driver.findElement(By.name("Error")).getText(),"Error","Error popup doesn't appears");
+		Assert.assertEquals(driver.findElement(By.name("Email and password can't be empty.")).getText(),"Email and password can't be empty.","Error popup doesn't appears");
+		Assert.assertEquals(driver.findElement(By.name("OK")).getText(),"OK","Error popup doesn't appears");
+		driver.findElement(By.name("OK")).click();
+		signUp("saya","Budi","acsdvsv", "123456789","dJk14");
+		Assert.assertEquals(driver.findElement(By.name("Error")).getText(),"Error","Error popup doesn't appears");
+		Assert.assertEquals(driver.findElement(By.name("Email address is not valid.")).getText(),"Email address is not valid.","Error popup invalid email address doesn't appears");
+		Assert.assertEquals(driver.findElement(By.name("OK")).getText(),"OK","Error popup doesn't appears");
+		driver.findElement(By.name("OK")).click();		
+		
+		
 		
 		/*com.happyfresh.staging:id/image_layout
 		com.happyfresh.staging:id/button_start
@@ -45,7 +84,37 @@ public class Launch extends BaseTest{
 		
 	}
 	
-	@Test //Verify Service Introduction page one
+	@Test //Verify splash screen
+	public void TC_2014Q20007_001_002() {
+		signUp("saya","Budi",random, "1234","dJk14");
+		Assert.assertEquals(driver.findElement(By.name("Error")).getText(),"Error","Error popup doesn't appears");
+		Assert.assertEquals(driver.findElement(By.name("Validation failed: Password is too short (minimum is 6 characters)")).getText(),"Validation failed: Password is too short (minimum is 6 characters)","Error popup Validation failed: Password is too short (minimum is 6 characters) doesn't appears");
+		Assert.assertEquals(driver.findElement(By.name("OK")).getText(),"OK","Error popup doesn't appears");
+		driver.findElement(By.name("OK")).click();
+		
+		driver.findElement(By.name("icon login show password disab")).click();
+		Assert.assertEquals(driver.findElement(By.xpath("//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIATextField[4]/UIATextField[1]")).getText(), "1234", "");
+		driver.findElement(By.xpath("//UIAApplication[1]/UIAWindow[1]/UIAScrollView[1]/UIAButton[1]")).click();
+	}
+	
+	@Test //Verify splash screen
+	public void TC_2014Q20007_001_003() {
+		signUp("saya","Budi",random, "123456789","dJk14");
+		Assert.assertEquals(driver.findElement(By.xpath("//UIAApplication[1]/UIAWindow[1]/UIAStaticText[1]")).getText(),"Choose your location and start shopping","Location doesn't appears");
+		Assert.assertEquals(driver.findElement(By.xpath("//UIAApplication[1]/UIAWindow[1]/UIAButton[1]")).getText(),"SELECT IT MANUALLY","SELECT IT MANUALLY button not found");
+		Assert.assertEquals(driver.findElement(By.xpath("//UIAApplication[1]/UIAWindow[1]/UIAButton[2]")).getText(),"USE MY CURRENT LOCATION","USE MY CURRENT LOCATION not found");
+		Assert.assertEquals(driver.findElement(By.xpath("//UIAApplication[1]/UIAWindow[1]/UIATextView[1]")).getText(),"You're currently in Indonesia. Change country","You're currently in Indonesia. Change country not found");
+		Assert.assertEquals(driver.findElement(By.xpath("//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIATableCell[1]")).getText(),"Hero Menteng","Stock location Hero Menteng not found");
+		driver.findElement(By.xpath("//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIATableCell[1]")).click();
+		driver.findElement(By.xpath("//UIAApplication[1]/UIAWindow[1]/UIANavigationBar[1]/UIAButton[1]")).click();
+		Assert.assertTrue(driver.findElement(By.xpath("//UIAApplication[1]/UIAWindow[1]/UIAImage[1]")).isDisplayed(), "Drawer not found");
+		driver.findElement(By.xpath("//UIAApplication[1]/UIAWindow[1]/UIATableView[1]/UIATableCell[4]")).click();
+		driver.findElement(By.xpath(" //UIAApplication[1]/UIAWindow[1]/UIAButton[1]")).click();
+		
+		
+	}
+	
+	/*@Test //Verify Service Introduction page one
 	public void TC_2014Q20007_001_002(){
 		isWait(2);
 		element = driver.findElement(By.id("com.happyfresh.staging:id/image_layout"));
@@ -191,7 +260,7 @@ public class Launch extends BaseTest{
 	}
 		
 	
-	/*{
+	{
 		// Verify element
 		Assert.assertTrue(isElementExist(By.name("Navigate up")), "Back button on Sign Up page not exist");
 		Assert.assertTrue(isElementExist(By.id("com.happyfresh.staging:id/upper_login")), "Sign Up page not exist");
@@ -211,9 +280,9 @@ public class Launch extends BaseTest{
 		Assert.assertEquals(driver.findElement(By.id("com.happyfresh.staging:id/sign_up")).getText(),"SIGN UP");
 		Assert.assertTrue(isElementExist(By.id("com.happyfresh.staging:id/login")), "LOG IN button not exist");
 		Assert.assertEquals(driver.findElement(By.id("com.happyfresh.staging:id/login")).getText(),"LOG IN");
-	}*/
+	}
 	
-	/*@Test
+	@Test
 	public void TC_2014Q20007_001_006(){
 		// Click back button on device
 		driver.findElement(By.id("com.happyfresh.staging:id/current_location_button")).click();
@@ -234,9 +303,9 @@ public class Launch extends BaseTest{
 		Assert.assertTrue(driver.findElement(By.id("com.happyfresh.staging:id/search_location_button")).isDisplayed(), "search_location_button not exist");
 		
 	}
-*/
+
 		
-		/*// Using SRIN TestLib API to check if the element exist
+		// Using SRIN TestLib API to check if the element exist
 		Assert.assertTrue(isElementExist(By.name("Service_Introduction-1")),);
 		Assert.assertTrue(isElementExist(By.name("Service_Introduction-1")), "Service Introduction image 1 is not dosplayed");
 		
@@ -315,7 +384,7 @@ public class Launch extends BaseTest{
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		// finding element by xPath.
 
-	}*/
-
+	}
+*/
 }
 
