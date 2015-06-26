@@ -22,7 +22,7 @@ public class SetUp {
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("appium-version","1.4.0");
         capabilities.setCapability("deviceName","iPhone Simulator");
-        capabilities.setCapability("platformVersion", "7.1");
+        capabilities.setCapability("platformVersion", "8.3");
         capabilities.setCapability("platformName", "ios");
         capabilities.setCapability("app", app.getAbsolutePath());
         driver = new IOSDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
